@@ -18,7 +18,8 @@ app.use(cors());
 
 // routes
 app.use("/api/users", routes.userRoute);
-
+app.use("/api/chats", routes.chatRoute);
+app.use("/api/messages", routes.messageRoute);
 
 app.get("/", (req, res) => {
   res.send("Welcome to my tesli chat app APIs");
