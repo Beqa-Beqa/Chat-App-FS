@@ -20,8 +20,6 @@ const AuthContextProvider = ({children}) => {
     password: ""
   });
 
-  console.log(loginInfo);
-
   const updateRegisterInfo = useCallback((info) => {
     setRegisterInfo(info);
   }, []);
