@@ -2,9 +2,19 @@ import { useFetchRecipientUser } from "../../hooks";
 import PropTypes from "prop-types";
 import { Stack } from "react-bootstrap";
 import avatar from "../../assets/avatar.svg";
+import { useContext } from "react";
+import { ChatContext } from "../../context/ChatContext";
+import {unreadNotificationsFunc} from "../../utils/unreadNotifications";
 
 const UserChat = ({ chat, user }) => {
   const { recipientUser } = useFetchRecipientUser(chat, user);
+  const { onlineUsers, notifications, markThisUserNotificationsAsRead } = useContext(ChatContext);
+  
+  const unreadNotifications = unreadNotificationsFunc(notifications);
+  const thisUserNotifications = unreadNotifications.filter((n) => {
+    return n.senderId == recipientUser?._id;
+  });
+  const isOnline = onlineUsers.some((user) => user?.userId === recipientUser?._id);
 
   return (
     <Stack
@@ -12,6 +22,9 @@ const UserChat = ({ chat, user }) => {
       gap={3}
       className="user-card align-items-center p-2 justify-content-between"
       role="button"
+      onClick={() => {
+        thisUserNotifications.length && markThisUserNotificationsAsRead(thisUserNotifications, notifications);
+      }}
     >
       <div className="d-flex">
         <div className="me-2">
@@ -26,8 +39,10 @@ const UserChat = ({ chat, user }) => {
         <div className="date">
           12/12/2022
         </div>
-        <div className="this-user-notifications">2</div>
-        <span className="user-online"></span>
+        {thisUserNotifications.length ? <div className="this-user-notifications">
+          {thisUserNotifications.length}
+        </div> : null}
+        {isOnline && <span className="user-online"></span>}
       </div>
     </Stack>
   );

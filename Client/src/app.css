@@ -137,10 +137,10 @@ body {
 }
 
 .notifications-header {
-  padding: 1rem;
-  padding-bottom: 0;
+  padding: .5rem 1rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .notifications-box h3 {
